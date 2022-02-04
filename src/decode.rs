@@ -56,6 +56,7 @@ macro_rules! impl_decode {
     };
 }
 
+impl_decode!(bool, read_bool);
 impl_decode!(i8, read_i8);
 impl_decode!(u8, read_u8);
 impl_decode!(i16, read_i16);

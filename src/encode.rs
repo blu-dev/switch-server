@@ -38,6 +38,7 @@ macro_rules! impl_encode {
     };
 }
 
+impl_encode!(bool, write_bool);
 impl_encode!(i8, write_i8);
 impl_encode!(u8, write_u8);
 impl_encode!(i16, write_i16);
