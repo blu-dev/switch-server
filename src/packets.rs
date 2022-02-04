@@ -161,7 +161,7 @@ fn disc_test() {
 }
 
 #[derive(Clone)]
-pub struct Custom(Vec<u8>);
+pub struct Custom(pub(crate) Vec<u8>);
 
 impl Encode for Custom {
     fn encode<W>(&self, writer: &mut W) -> io::Result<()>

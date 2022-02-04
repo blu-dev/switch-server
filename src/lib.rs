@@ -72,6 +72,24 @@ impl Decode for PacketType {
     }
 }
 
+impl Packet {
+    pub fn from_custom(custom: &impl Encode) -> io::Result<Self> {
+        let mut cursor = io::Cursor::new(vec![]);
+        custom.encode(&mut cursor)?;
+        let bytes = cursor.into_inner();
+        Ok(Self::Custom(packets::Custom(bytes)))
+    }
+
+    pub fn into_custom<D: Decode>(self) -> io::Result<D> {
+        let data = match self {
+            Self::Custom(packets::Custom(data)) => data,
+            _ => return Err(io::Error::new(io::ErrorKind::InvalidData, "Packet is not a custom packet!"))
+        };
+        let mut cursor = io::Cursor::new(data);
+        D::decode(&mut cursor)
+    }
+}
+
 impl Encode for Packet {
     fn encode<W>(&self, writer: &mut W) -> io::Result<()>
     where W: Write + Seek
